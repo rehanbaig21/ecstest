@@ -1,3 +1,4 @@
+properties([pipelineTriggers([githubPush()])])
 pipeline {
   agent any
   environment {
@@ -13,5 +14,6 @@ stages {
                 sh "ls -lart ./*"
 }        
         }
+        
 }
 }
