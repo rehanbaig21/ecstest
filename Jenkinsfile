@@ -14,6 +14,17 @@ stages {
                 sh "ls -lart ./*"
 }        
         }
+       
+       stage('docker') {
+    environment {
+        GET_PASSWORD = 'aws ecr get-login-password --region ca-central-1'
+        LOGIN = "docker login --username AWS --password-stdin $DOCKER_REGISTRY"
+      }
+      steps {
+        sh(script: "$GET_PASSWORD | $LOGIN", returnStdout:true)
+        sh 'docker pull $DOCKER_IMAGE'
+      }
+    }
         
 }
 }
