@@ -5,7 +5,10 @@ pipeline {
     DOCKER_REGISTRY = '927956577355.dkr.ecr.us-east-1.amazonaws.com'
     DOCKER_REPOSITORY = "ecs-test"
     aws_credentials= credentials('ecstest')
-  }
+    GIT_COMMIT_SHORT = sh(
+                script: "printf \$(git rev-parse --short ${GIT_COMMIT})",
+                returnStdout: true )
+  
 
 stages {
         stage('Checkout') {
@@ -30,6 +33,8 @@ stages {
       steps {
         sh "docker build ."
         sh "docker images"
+        sh " docker tag hello-world $DOCKER_REGISTRY/$DOCKER_REPOSITORY/ecstest-$"
+        sh "echo $GIT_COMMIT_SHORT"
        }
 }
 }
