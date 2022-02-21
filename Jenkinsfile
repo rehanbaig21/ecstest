@@ -1,3 +1,4 @@
+properties([pipelineTriggers([githubPush()])])
 pipeline {
   agent any
   environment {
@@ -37,10 +38,9 @@ stages {
        }
 }
     stage('update task defination with new image') {
-steps {
-    sh "sed -i -e 's|updatedimage|$DOCKER_REGISTRY|'$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT'|g' ./ecs_task_defination.json"
-    sh "cat ./ecs_task_defination.json "
-}
+
+    sh 'sed -i "s/updatedimage/$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT/g" ./ecs_task_defination.json'
+    sh "cat ./ecs_task_defination.json"
 }
 }
 }
