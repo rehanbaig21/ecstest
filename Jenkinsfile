@@ -30,8 +30,7 @@ stages {
       steps {
         sh "docker build ."
         sh "docker images"
-       
-
-        
+       }
+}
 }
 }
