@@ -15,16 +15,23 @@ stages {
 }        
         }
        
-       stage('docker') {
-    environment {
+       stage('docker login') {
+       environment {
         GET_PASSWORD = 'aws ecr get-login-password --region us-east-1'
         LOGIN = "docker login --username AWS --password-stdin $DOCKER_REGISTRY"
       }
       steps {
         sh(script: "$GET_PASSWORD | $LOGIN", returnStdout:true)
-        sh 'docker pull $DOCKER_IMAGE'
       }
     }
+
+     stage('docker build ') {
+       
+      steps {
+        sh "docker build ."
+        sh "docker images"
+       
+
         
 }
 }
