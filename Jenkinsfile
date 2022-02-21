@@ -17,7 +17,7 @@ stages {
        
        stage('docker') {
     environment {
-        GET_PASSWORD = 'aws ecr get-login-password --region ca-central-1'
+        GET_PASSWORD = 'aws ecr get-login-password --region us-east-1'
         LOGIN = "docker login --username AWS --password-stdin $DOCKER_REGISTRY"
       }
       steps {
