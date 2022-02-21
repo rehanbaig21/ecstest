@@ -33,8 +33,9 @@ stages {
       steps {
         sh "docker build ."
         sh "docker images"
-        sh " docker tag hello-world $DOCKER_REGISTRY/$DOCKER_REPOSITORY/ecstest-$GIT_COMMIT_SHORT"
+        sh " docker tag hello-world $DOCKER_REGISTRY/$DOCKER_REPOSITORY/hello-world:$GIT_COMMIT_SHORT"
         sh "echo $GIT_COMMIT_SHORT"
+        sh "docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY/hello-world:$GIT_COMMIT_SHORT"
        }
 }
 }
