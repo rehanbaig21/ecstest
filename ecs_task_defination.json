@@ -1,0 +1,14 @@
+{
+    "name": "hello_world",
+    "image": "updatedimage",
+    "cpu": 0,
+    "memory": 128,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-region": "us-east-1",
+        "awslogs-group": "hello_world",
+        "awslogs-stream-prefix": "complete-ecs"
+      }
+    }
+  }

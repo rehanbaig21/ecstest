@@ -28,16 +28,19 @@ stages {
       }
     }
 
-     stage('docker build ') {
+     stage('docker build and push') {
        
       steps {
         sh "docker build ."
-        sh "docker images"
         sh " docker tag hello-world $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT"
         sh "echo $GIT_COMMIT_SHORT"
         sh "docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT"
        }
 }
+    stage('update task defination with new image') {
+
+    sh 'sed -i "s/updatedimage/$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT/g" ./ecs_task_defination.json'
+    sh "cat ./ecs_task_defination.json "
 }
 
 }
