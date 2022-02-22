@@ -47,11 +47,10 @@ stages {
    environment {
         NEW_IMAGE= '$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT'
         TASK_DEFINITION='aws ecs describe-task-definition --task-definition "hello_world" --region "us-east-1"'
-        // NEW_TASK_DEFINTIION="echo $TASK_DEFINITION | jq --arg IMAGE "${NEW_IMAGE}" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
+        NEW_TASK_DEFINTIION="echo $TASK_DEFINITION | jq --arg IMAGE \"$NEW_IMAGE\" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
       }    
  steps {
-     sh "ntd=$(echo $TASK_DEFINITION | jq --arg IMAGE \"$NEW_IMAGE\" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)' ) "
-     sh "echo $ntd"
+     sh "echo $NEW_IMAGE"
      sh 'aws ecs register-task-definition --region "us-east-1" --cli-input-json "$NEW_TASK_DEFINTIION"'
  }
 }
