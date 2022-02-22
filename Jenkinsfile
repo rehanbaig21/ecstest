@@ -50,10 +50,10 @@ stages {
         
       }    
  steps {
-     sh '$(aws ecs describe-task-definition --task-definition "hello_world" --region "us-east-1") > /tmp/TASK_DEFINITION.json'
-     sh '$(echo $TASK_DEFINITION | jq --arg IMAGE "$NEW_IMAGE" ".taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)" )  > /tmp/NEW_TASK_DEFINITION.json'
-     sh "cat /tmp/TASK_DEFINITION.json"
-     sh "cat /tmp/NEW_TASK_DEFINITION.json"
+     sh '$(aws ecs describe-task-definition --task-definition "hello_world" --region "us-east-1") > ./TASK_DEFINITION.json'
+     sh '$(echo $TASK_DEFINITION | jq --arg IMAGE "$NEW_IMAGE" ".taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)" )  > ./NEW_TASK_DEFINITION.json'
+     sh "cat ./TASK_DEFINITION.json"
+     sh "cat ./NEW_TASK_DEFINITION.json"
      sh "echo $NEW_IMAGE"
      sh 'aws ecs register-task-definition --region "us-east-1" --cli-input-json "$NEW_TASK_DEFINTIION"'
  }
