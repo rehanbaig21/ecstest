@@ -47,6 +47,7 @@ stages {
    stage('update task defination config with new image') {
    environment {
         
+        sh 'echo $NEW_IMAGE'
         TASK_DEFINITION='aws ecs describe-task-definition --task-definition "hello_world" --region "us-east-1"'
         NEW_TASK_DEFINTIION="echo $TASK_DEFINITION | jq --arg IMAGE '${NEW_IMAGE}' '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
       }    
