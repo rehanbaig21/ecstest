@@ -51,7 +51,7 @@ stages {
       }    
  steps {
      sh 'echo $NEW_IMAGE'
-     sh "export NEW_TASK_DEFINTIION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$NEW_IMAGE" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
+     sh "export NEW_TASK_DEFINTIION=$(echo ${TASK_DEFINITION} | jq --arg IMAGE "${NEW_IMAGE}" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
      sh "echo $NEW_TASK_DEFINTIION"
      sh 'aws ecs register-task-definition --region "us-east-1" --cli-input-json "$NEW_TASK_DEFINTIION"'
  }
