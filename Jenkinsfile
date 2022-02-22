@@ -37,10 +37,18 @@ stages {
         sh "docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT"
        }
 }
-    stage('update task defination with new image') {
+    stage('update task defination config with new image') {
  steps {
     sh 'sed -i "s|updatedimage|$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT|g" ./ecs_task_defination.json'
-    sh "cat ./ecs_task_defination.json"
+ }
+   
+   stage('update task defination config with new image') {
+   environment {
+        TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition "hello_world" --region "us-east-1")
+        NEW_TASK_DEFINTIION=$(echo $TASK_DEFINITION | jq --arg IMAGE "$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)')
+      }    
+ steps {
+     sh 'aws ecs register-task-definition --region "us-east-1" --cli-input-json "$NEW_TASK_DEFINTIION"'
  }
 }
 }
