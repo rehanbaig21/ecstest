@@ -50,6 +50,7 @@ stages {
         NEW_TASK_DEFINTIION="echo $TASK_DEFINITION | jq --arg IMAGE \"$NEW_IMAGE\" '.taskDefinition | .containerDefinitions[0].image = $IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)'"
       }    
  steps {
+     sh "echo $NEW_TASK_DEFINTIION"
      sh "echo $NEW_IMAGE"
      sh 'aws ecs register-task-definition --region "us-east-1" --cli-input-json "$NEW_TASK_DEFINTIION"'
  }
