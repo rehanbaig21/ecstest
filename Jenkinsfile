@@ -37,7 +37,7 @@ stages {
         sh "docker push $DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT"
        }
 }
-    stage('update task defination config with new image') {
+    stage('update task defination config') {
  steps {
     sh 'sed -i "s|updatedimage|$DOCKER_REGISTRY/$DOCKER_REPOSITORY:$GIT_COMMIT_SHORT|g" ./ecs_task_defination.json'
  }
