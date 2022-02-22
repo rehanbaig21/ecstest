@@ -15,7 +15,7 @@ stages {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/docker']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'jenkins-github-user', url: 'https://github.com/rehanbaig21/ecstest']]])
                 sh "ls -lart ./*"
-                sh "apt-get install jq"
+                sh "sudo apt-get install jq"
 }        
         }
        
